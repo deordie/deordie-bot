@@ -2,7 +2,7 @@
 
 build:
 	go mod tidy
-	go build -o ./bin/ .
+	go build -o ./bin/deordie-bot ./app
 
 format:
 	go fmt ./...
@@ -22,6 +22,10 @@ clean:
 release: format lint test race build
 
 run:
-	go run .
+	go run ./app
 
 deps:
+	go get -u github.com/joho/godotenv
+	go get -u gopkg.in/telebot.v3
+	go get -u github.com/google/go-github/v57
+	go get -u github.com/stretchr/testify
