@@ -1,4 +1,4 @@
-.PHONY: build, clean, deps, format, lint, race, release, run, test
+.PHONY: build, clean, deps, docker, format, lint, race, release, run, test
 
 build:
 	go mod tidy
@@ -29,3 +29,7 @@ deps:
 	go get -u gopkg.in/telebot.v3
 	go get -u github.com/google/go-github/v57
 	go get -u github.com/stretchr/testify
+
+docker:
+	docker build --rm --tag deordie-bot .
+	docker run --rm -p 8080:8080 --env-file .env deordie-bot

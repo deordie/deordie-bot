@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/url"
 	"strings"
-	"time"
 )
 
 const (
@@ -32,15 +31,17 @@ type Bot struct {
 	stateStorage       *StateStorage
 }
 
-func NewBot(token string, rapidApiClient *rapidapi.Client, githubClient *github.Client) (*Bot, error) {
+func NewBot(token string, rapidApiClient *rapidapi.Client, githubClient *github.Client, publicUrl string) (*Bot, error) {
 	pref := tele.Settings{
 		Token:  token,
-		Poller: &tele.LongPoller{Timeout: 10 * time.Second},
+		Poller: &tele.Webhook{Listen: ":8080", Endpoint: &tele.WebhookEndpoint{PublicURL: publicUrl}},
 	}
 	telebot, err := tele.NewBot(pref)
 	if err != nil {
 		return nil, fmt.Errorf("error occured during Telgram bot creation: %w", err)
 	}
+
+	log.Printf("The bot is configured as a Webhook with public URL: %s and listens on port 8080\n", publicUrl)
 
 	return &Bot{
 		telebot:            telebot,
@@ -56,6 +57,7 @@ func (b *Bot) Start() {
 	b.telebot.Handle(helpCommand, b.handleHelp)
 	b.telebot.Handle(tele.OnText, b.handleOnText)
 
+	log.Printf("The bot is running...\n")
 	b.telebot.Start()
 }
 

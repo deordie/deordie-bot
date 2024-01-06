@@ -5,12 +5,11 @@
 - [ ] Precise linter configuration.
 - [ ] GoReleaser
 - [ ] Introduce storage to handle state.
-- [ ] Replace long poller with webhook.
 - [ ] Make GitHub repo public.
 - [ ] Generate description using GPT-4.
 - [ ] Generate tags using GPT-4.
 
-# Version 0.0.1 (MVP)
+# Version MVP
 
 - [x] Extract article API.
 - [x] GitHub API to create issue.
@@ -19,10 +18,11 @@
 - [x] Simple storage for handling state.
 - [x] Dockerfile
 - [x] README, LICENSE and publish to GitHub as private repo.
+- [x] Replace long poller with webhook.
 - [x] Manual testing.
-- [ ] Deployment as a single instance application.
 - CI/CD:
   - [ ] GitHub actions.
+  - [ ] Deployment as a single instance application.
 - Telegram bot configuration with @BotFather:
   - [ ] Icon
   - [ ] Commands

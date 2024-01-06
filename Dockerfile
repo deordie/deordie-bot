@@ -6,4 +6,5 @@ WORKDIR /app
 
 COPY bin/ ./
 
+EXPOSE 8080
 ENTRYPOINT ["./deordie-bot"]
