@@ -21,7 +21,7 @@
 - [x] Replace long poller with webhook.
 - [x] Manual testing.
 - CI/CD:
-  - [ ] GitHub actions.
+  - [x] GitHub actions.
   - [ ] Deployment as a single instance application.
 - Telegram bot configuration with @BotFather:
   - [ ] Icon
