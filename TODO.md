@@ -8,6 +8,7 @@
 - [ ] Make GitHub repo public.
 - [ ] Generate description using GPT-4.
 - [ ] Generate tags using GPT-4.
+- [ ] GoReleaser
 
 # Version 0.1 (MVP)
 
@@ -16,13 +17,12 @@
 - [x] Core bot functionality.
 - [x] Unit test coverage.
 - [x] Simple storage for handling state.
-- [ ] Dockerfile
-- [ ] Manual testing.
+- [x] Dockerfile
 - [ ] README, LICENSE and publish to GitHub as private repo.
+- [~] Manual testing.
 - [ ] Deployment as a single instance application.
 - CI/CD:
   - [ ] GitHub actions.
-  - [ ] GoReleaser
 - Telegram bot configuration with @BotFather:
   - [ ] Icon
   - [ ] Commands

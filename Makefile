@@ -2,7 +2,7 @@
 
 build:
 	go mod tidy
-	go build -o ./bin/deordie-bot ./app
+	CGO_ENABLED=0 go build -o ./bin/deordie-bot ./app
 
 format:
 	go fmt ./...
