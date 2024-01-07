@@ -2,7 +2,6 @@
 
 _DE or DIE – made by data engineers for date engineers._
 
-[@deordie_bot](https://t.me/deordie_bot) is a Telegram bot to automate routine processes for the DE or DIE Orgs team.
+[@deordie_bot](https://t.me/deordie_bot) is a Telegram bot for DE or DIE community.
 
-At the moment it simplifies the way to collect articles for our Digest.
-
+At the moment this simplifies the gathering of articles for our [Digest](https://digest.deordie.org).

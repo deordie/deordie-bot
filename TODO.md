@@ -22,10 +22,9 @@
 - [x] Manual testing.
 - CI/CD:
   - [x] GitHub actions.
-  - [ ] Deployment as a single instance application.
+  - [x] Deployment as a single instance application.
 - Telegram bot configuration with @BotFather:
-  - [ ] Icon
-  - [ ] Commands
-  - [ ] Description
-  - [ ] ACL?
-- [ ] Release MVP.
+  - [x] Icon
+  - [x] Commands
+  - [x] Description
+- [x] Release MVP.
