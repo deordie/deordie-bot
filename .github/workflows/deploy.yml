@@ -13,11 +13,16 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-deploy:
+  pull-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.REGISTRY }}
+          username:  ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: azure/webapps-deploy@v2
         with:
           app-name: 'deordie-bot'
-          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
           images: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.tag }}'
