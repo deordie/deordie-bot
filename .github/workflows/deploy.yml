@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag'
+        required: true
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'deordie-bot'
+          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+          images: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.tag }}'
