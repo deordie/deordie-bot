@@ -63,18 +63,18 @@ func (b *Bot) Start() {
 
 func (b *Bot) handleStart(ctx tele.Context) error {
 	var startText = fmt.Sprintf("Hello! I can help you to quickly propose an article for DE or DIE: Digest. Start with %s command and follow the instructions.", newArticleCommand)
-	return ctx.Send(startText)
+	return ctx.Send(startText, tele.RemoveKeyboard)
 }
 
 func (b *Bot) handleHelp(ctx tele.Context) error {
 	helpText := fmt.Sprintf(`Supported commands:
 %s - Propose an article for DE or DIE: Digest.`, newArticleCommand)
-	return ctx.Send(helpText)
+	return ctx.Send(helpText, tele.RemoveKeyboard)
 }
 
 func (b *Bot) handleNewArticle(ctx tele.Context) error {
 	b.stateStorage.Set(ctx.Sender().ID, UserArticleState{UserId: ctx.Sender().ID})
-	return ctx.Send("Step 1. Provide article URL. To abort the operation type \"cancel\".")
+	return ctx.Send("Step 1. Provide article URL. To abort the operation type \"cancel\".", tele.RemoveKeyboard)
 }
 
 func (b *Bot) handleOnText(ctx tele.Context) error {
@@ -86,7 +86,7 @@ func (b *Bot) handleOnText(ctx tele.Context) error {
 
 	if strings.ToLower(ctx.Text()) == "cancel" {
 		b.stateStorage.Delete(userId)
-		return ctx.Send("The operation was cancelled.")
+		return ctx.Send("The operation was cancelled.", tele.RemoveKeyboard)
 	}
 
 	if state.Url == "" {
@@ -103,14 +103,13 @@ func (b *Bot) handleOnText(ctx tele.Context) error {
 	if state.Description == "" {
 		state.Description = ctx.Text()
 		b.stateStorage.Set(userId, state)
-		keyboard := createLevelKeyboardMarkup()
-		return ctx.Send("Step 3. Provide level. To abort the operation type \"cancel\".", keyboard)
+		return ctx.Send("Step 3. Provide level. To abort the operation type \"cancel\".", getLevelKeyboard())
 	}
 
 	if state.Level == "" {
 		state.Level = ctx.Text()
 		b.stateStorage.Set(userId, state)
-		return ctx.Send("Step 4. Provide topics as a comma separated list, e.g. \"streaming, storage-engine, kafka\" without quotes. To abort the operation type \"cancel\".")
+		return ctx.Send("Step 4. Provide topics as a comma separated list, e.g. \"streaming, storage-engine, kafka\" without quotes. To abort the operation type \"cancel\".", tele.RemoveKeyboard)
 	}
 
 	if len(state.Topics) == 0 {
@@ -132,15 +131,15 @@ func (b *Bot) handleOnText(ctx tele.Context) error {
 	articleIssue := newArticleIssue(ctx.Sender().Username, article, &state)
 	issueUrl, err := b.githubIssueCreator.CreateIssue(articleIssue)
 	if err != nil {
-		log.Printf("Failed to create GitHub issue: %s", err.Error())
+		log.Printf("Failed to create GitHub issue: %s.\nExtracted article is:\n%v\n", err.Error(), article)
 		return ctx.Send("Operation failed on creating GitHub issue.")
 	}
 
 	return ctx.Send("The article was added to the digest candidates! GitHub issue link: " + issueUrl)
 }
 
-func createLevelKeyboardMarkup() *tele.ReplyMarkup {
-	keyboard := &tele.ReplyMarkup{ResizeKeyboard: true}
+func getLevelKeyboard() *tele.ReplyMarkup {
+	keyboard := &tele.ReplyMarkup{ResizeKeyboard: true, OneTimeKeyboard: true}
 	btnBeginner := keyboard.Text("beginner")
 	btnMedium := keyboard.Text("medium")
 	btnAdvanced := keyboard.Text("advanced")
