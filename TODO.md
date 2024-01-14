@@ -1,6 +1,6 @@
 # Version vNext
 
-- [ ] Get rid of `go-github` dependency. Replace it with direct API call using http client.
+- [x] Get rid of `go-github` dependency. Replace it with direct API call using http client.
 - [ ] Vendor dependencies
 - [ ] Precise linter configuration.
 - [ ] GoReleaser

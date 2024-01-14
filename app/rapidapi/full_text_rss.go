@@ -24,6 +24,10 @@ type Article struct {
 	Domain       string    `json:"domain"`
 }
 
+func wrapError(err error) error {
+	return fmt.Errorf("error occurred during ExtractArticle call: %w", err)
+}
+
 func NewClient(apiKey string) *Client {
 	return &Client{
 		apiKey:            apiKey,
@@ -36,7 +40,7 @@ func (c *Client) ExtractArticle(articleUrl string) (*Article, error) {
 
 	req, err := http.NewRequest("POST", c.fullTextRssApiUrl, payload)
 	if err != nil {
-		return nil, fmt.Errorf("error occured during ExtractArticle call: %w", err)
+		return nil, wrapError(err)
 	}
 
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
@@ -45,13 +49,13 @@ func (c *Client) ExtractArticle(articleUrl string) (*Article, error) {
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("error occured during ExtractArticle call: %w", err)
+		return nil, wrapError(err)
 	}
 
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return nil, fmt.Errorf("error occurred during ExtractArticle call: %w", err)
+		return nil, wrapError(err)
 	}
 
 	if res.StatusCode != 200 {
@@ -61,7 +65,7 @@ func (c *Client) ExtractArticle(articleUrl string) (*Article, error) {
 	var article Article
 	err = json.Unmarshal(body, &article)
 	if err != nil {
-		return nil, fmt.Errorf("error occurred during ExtractArticle call: %w", err)
+		return nil, wrapError(err)
 	}
 
 	return &article, nil
